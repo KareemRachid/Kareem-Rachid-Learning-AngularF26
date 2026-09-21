@@ -1,5 +1,6 @@
 <h1>Soccer Players</h1>
 @for (player of players; track player.name) {
+    <div class="player-card">
     <h2>{{ player.name }}</h2>
     <p>Number: {{ player.number }}</p>
     <p>Position: {{ player.position }}</p>
@@ -8,6 +9,7 @@
     @if (player.nationality) {
         <p>Nationality: {{ player.nationality }}</p>
     }
+    </div>
 } @empty {
     <p>No players available.</p>
 }
