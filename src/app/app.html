@@ -1,3 +1,13 @@
-<h1>My first Angular application</h1>
-<p>Name & ID: {{ StudentInfo }}</p>
-<p>Program: {{ ProgramName }}</p>
+<h1>Soccer Players</h1>
+@for (player of players; track player.name) {
+    <h2>{{ player.name }}</h2>
+    <p>Number: {{ player.number }}</p>
+    <p>Position: {{ player.position }}</p>
+    <p>Team: {{ player.team }}</p>
+
+    @if (player.nationality) {
+        <p>Nationality: {{ player.nationality }}</p>
+    }
+} @empty {
+    <p>No players available.</p>
+}
