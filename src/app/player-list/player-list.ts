@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Player } from '../player';
-import { PlayerListItem } from '../player-list-item/player-list-item';
-@Component({
+import { PlayerListItem, PlayerEvent } from '../player-list-item/player-list-item';@Component({
 imports: [PlayerListItem],
   selector: 'app-player-list',
   styleUrl: './player-list.css',
@@ -38,5 +37,7 @@ export class PlayerList {
       team: 'Real Madrid'
     }
   ];
-
+    handlePlayerEvent(event: PlayerEvent) {
+      console.log('Player event:', event);
+    }
 }

@@ -1,5 +1,8 @@
 @for (player of players; track player.number) {
-  <app-player-list-item [player]="player"></app-player-list-item>
+  <app-player-list-item
+    [player]="player"
+    (playerEvent)="handlePlayerEvent($event)">
+  </app-player-list-item>
 } @empty {
   <p>No players available.</p>
 }
