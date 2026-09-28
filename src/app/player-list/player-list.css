@@ -1,0 +1,19 @@
+.even {
+  background-color: lightgray;
+}
+
+.odd {
+  background-color: lightblue;
+}
+.first {
+  border-top: 4px solid black;
+}
+
+.last {
+  border-bottom: none;
+}
+
+.badge {
+  font-weight: bold;
+  padding: 5px;
+}

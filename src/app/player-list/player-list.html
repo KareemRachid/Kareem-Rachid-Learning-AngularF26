@@ -1,8 +1,32 @@
-@for (player of players; track player.number) {
-  <app-player-list-item
-    [player]="player"
-    (playerEvent)="handlePlayerEvent($event)">
-  </app-player-list-item>
+@for (
+  player of players;
+  track player.number;
+  let even = $even;
+  let odd = $odd;
+  let first = $first;
+  let last = $last;
+  let count = $count
+) {
+  @if (first) {
+    <h2>Showing {{ count }} players</h2>
+  }
+
+  <div
+    [class.even]="even"
+    [class.odd]="odd"
+    [class.first]="first"
+    [class.last]="last">
+
+    @if (first) {
+      <p class="badge">First Player</p>
+    }
+
+    <app-player-list-item
+      [player]="player"
+      (playerEvent)="handlePlayerEvent($event)">
+    </app-player-list-item>
+
+  </div>
 } @empty {
   <p>No players available.</p>
 }

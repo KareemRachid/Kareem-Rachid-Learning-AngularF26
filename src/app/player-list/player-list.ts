@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Player } from '../player';
-import { PlayerListItem, PlayerEvent } from '../player-list-item/player-list-item';@Component({
-imports: [PlayerListItem],
+import { PlayerListItem, PlayerEvent } from '../player-list-item/player-list-item';
+
+@Component({
+  imports: [PlayerListItem],
   selector: 'app-player-list',
   styleUrl: './player-list.css',
   templateUrl: './player-list.html',
@@ -14,30 +16,35 @@ export class PlayerList {
       number: 10,
       position: 'Forward',
       team: 'Real Madrid',
-      nationality: 'France'
+      nationality: 'France',
+      imageUrl: 'players/mbappe.jpg'
     },
     {
       name: 'Sergio Ramos',
       number: 4,
       position: 'Defender',
       team: 'Monterrey',
-      nationality: 'Spain'
+      nationality: 'Spain',
+      imageUrl: 'players/ramos.jpg'
     },
     {
       name: 'Jude Bellingham',
       number: 5,
       position: 'Midfielder',
       team: 'Real Madrid',
-      nationality: 'England'
+      nationality: 'England',
+      imageUrl: 'players/bellingham.jpg'
     },
     {
       name: 'Thibaut Courtois',
       number: 1,
       position: 'Goalkeeper',
-      team: 'Real Madrid'
+      team: 'Real Madrid',
+      imageUrl: 'players/courtois.jpg'
     }
   ];
-    handlePlayerEvent(event: PlayerEvent) {
-      console.log('Player event:', event);
-    }
+
+  handlePlayerEvent(event: PlayerEvent) {
+    console.log('Player event:', event);
+  }
 }
