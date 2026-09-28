@@ -1,1 +1,32 @@
-<p>player-list-item works!</p>
+<div class="player-card">
+
+  <h2>{{ player().name }}</h2>
+
+  <p>Number: {{ player().number }}</p>
+  <p>Team: {{ player().team }}</p>
+
+  @switch (player().position) {
+    @case ('Forward') {
+      <p>Position: Forward</p>
+    }
+    @case ('Midfielder') {
+      <p>Position: Midfielder</p>
+    }
+    @case ('Defender') {
+      <p>Position: Defender</p>
+    }
+    @case ('Goalkeeper') {
+      <p>Position: Goalkeeper</p>
+    }
+    @default {
+      <p>Position: Unknown</p>
+    }
+  }
+
+  @if (player().nationality) {
+    <p>Nationality: {{ player().nationality }}</p>
+  } @else {
+    <p>Nationality: Not provided</p>
+  }
+
+</div>

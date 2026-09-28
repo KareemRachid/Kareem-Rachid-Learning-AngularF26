@@ -1,1 +1,5 @@
-<p>player-list works!</p>
+@for (player of players; track player.number) {
+  <app-player-list-item [player]="player"></app-player-list-item>
+} @empty {
+  <p>No players available.</p>
+}

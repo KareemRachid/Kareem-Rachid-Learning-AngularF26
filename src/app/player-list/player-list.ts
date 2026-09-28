@@ -1,9 +1,42 @@
 import { Component } from '@angular/core';
-
+import { Player } from '../player';
+import { PlayerListItem } from '../player-list-item/player-list-item';
 @Component({
-  imports: [],
+imports: [PlayerListItem],
   selector: 'app-player-list',
   styleUrl: './player-list.css',
   templateUrl: './player-list.html',
 })
-export class PlayerList {}
+export class PlayerList {
+
+  players: Player[] = [
+    {
+      name: 'Kylian Mbappe',
+      number: 10,
+      position: 'Forward',
+      team: 'Real Madrid',
+      nationality: 'France'
+    },
+    {
+      name: 'Sergio Ramos',
+      number: 4,
+      position: 'Defender',
+      team: 'Monterrey',
+      nationality: 'Spain'
+    },
+    {
+      name: 'Jude Bellingham',
+      number: 5,
+      position: 'Midfielder',
+      team: 'Real Madrid',
+      nationality: 'England'
+    },
+    {
+      name: 'Thibaut Courtois',
+      number: 1,
+      position: 'Goalkeeper',
+      team: 'Real Madrid'
+    }
+  ];
+
+}
