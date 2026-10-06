@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Player } from '../player';
+import { Component, inject } from '@angular/core';
 import { PlayerListItem, PlayerEvent } from '../player-list-item/player-list-item';
+import { Player as PlayerService } from '../services/player';
 
 @Component({
   imports: [PlayerListItem],
@@ -10,39 +10,9 @@ import { PlayerListItem, PlayerEvent } from '../player-list-item/player-list-ite
 })
 export class PlayerList {
 
-  players: Player[] = [
-    {
-      name: 'Kylian Mbappe',
-      number: 10,
-      position: 'Forward',
-      team: 'Real Madrid',
-      nationality: 'France',
-      imageUrl: 'players/mbappe.jpg'
-    },
-    {
-      name: 'Sergio Ramos',
-      number: 4,
-      position: 'Defender',
-      team: 'Monterrey',
-      nationality: 'Spain',
-      imageUrl: 'players/ramos.jpg'
-    },
-    {
-      name: 'Jude Bellingham',
-      number: 5,
-      position: 'Midfielder',
-      team: 'Real Madrid',
-      nationality: 'England',
-      imageUrl: 'players/bellingham.jpg'
-    },
-    {
-      name: 'Thibaut Courtois',
-      number: 1,
-      position: 'Goalkeeper',
-      team: 'Real Madrid',
-      imageUrl: 'players/courtois.jpg'
-    }
-  ];
+  private playerService = inject(PlayerService);
+
+  players = this.playerService.players;
 
   handlePlayerEvent(event: PlayerEvent) {
     console.log('Player event:', event);

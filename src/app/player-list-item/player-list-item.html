@@ -2,11 +2,13 @@
   <h2>{{ player().name }}</h2>
 
   <p>Number: {{ player().number }}</p>
+
   <img
-  [src]="player().imageUrl"
-  [alt]="player().name"
-  class="player-image"
->
+    [src]="player().imageUrl"
+    [alt]="player().name"
+    class="player-image"
+  >
+
   <p>Team: {{ player().team }}</p>
 
   @switch (player().position) {
@@ -32,5 +34,4 @@
   } @else {
     <p>Nationality: Not provided</p>
   }
-
 </div>
