@@ -1,11 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import { Player } from '../player';
-
 export interface PlayerEvent {
   number: number;
   action: 'opened' | 'favourited';
 }
-
 @Component({
   imports: [],
   selector: 'app-player-list-item',
