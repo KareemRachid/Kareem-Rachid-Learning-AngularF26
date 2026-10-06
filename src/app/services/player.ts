@@ -1,4 +1,4 @@
-import { Service, signal } from '@angular/core';
+import { Service, signal, computed, effect } from '@angular/core';
 import { Player as PlayerModel } from '../player';
 
 @Service()
@@ -38,4 +38,18 @@ export class Player {
   ]);
 
   players = this.playersSignal.asReadonly();
+
+  realMadridPlayers = computed(() =>
+    this.playersSignal().filter(player => player.team === 'Real Madrid')
+  );
+
+  constructor() {
+    effect(() => {
+      console.log('Player count:', this.playersSignal().length);
+    });
+  }
+
+  addPlayer(newPlayer: PlayerModel) {
+    this.playersSignal.update(list => [...list, newPlayer]);
+  }
 }
