@@ -13,8 +13,9 @@ export class PlayerList {
   private playerService = inject(PlayerService);
 
   players = this.playerService.players;
+  realMadridPlayerCount = this.playerService.realMadridPlayerCount;
 
   handlePlayerEvent(event: PlayerEvent) {
-    console.log('Player event:', event);
+    this.playerService.removePlayer(event.number);
   }
 }

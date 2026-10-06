@@ -43,6 +43,10 @@ export class Player {
     this.playersSignal().filter(player => player.team === 'Real Madrid')
   );
 
+  realMadridPlayerCount = computed(() =>
+    this.realMadridPlayers().length
+  );
+
   constructor() {
     effect(() => {
       console.log('Player count:', this.playersSignal().length);
@@ -51,5 +55,11 @@ export class Player {
 
   addPlayer(newPlayer: PlayerModel) {
     this.playersSignal.update(list => [...list, newPlayer]);
+  }
+
+  removePlayer(number: number) {
+    this.playersSignal.update(list =>
+      list.filter(player => player.number !== number)
+    );
   }
 }
