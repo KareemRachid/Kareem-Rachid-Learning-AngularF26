@@ -1,8 +1,11 @@
-import { Service, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Player as PlayerModel } from '../player';
+import { APP_CONFIG } from '../config/app-config';
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class Player {
+  private config = inject(APP_CONFIG);
+
   private playersSignal = signal<PlayerModel[]>([
     {
       name: 'Kylian Mbappe',
@@ -40,12 +43,16 @@ export class Player {
   players = this.playersSignal.asReadonly();
 
   realMadridPlayers = computed(() =>
-    this.playersSignal().filter(player => player.team === 'Real Madrid')
+    this.playersSignal().filter(
+      player => player.team === this.config.defaultCategory
+    )
   );
 
   realMadridPlayerCount = computed(() =>
     this.realMadridPlayers().length
   );
+
+  dataSource = `Placeholder API: ${this.config.apiBaseUrl}`;
 
   constructor() {
     effect(() => {

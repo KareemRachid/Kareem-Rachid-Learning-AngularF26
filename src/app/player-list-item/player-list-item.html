@@ -1,4 +1,4 @@
-<div class="player-card" (click)="playerClicked()">
+<div class="player-card">
   <h2>{{ player().name }}</h2>
 
   <p>Number: {{ player().number }}</p>
@@ -34,4 +34,8 @@
   } @else {
     <p>Nationality: Not provided</p>
   }
+
+  <button type="button" (click)="playerClicked()">
+    Remove Player
+  </button>
 </div>
