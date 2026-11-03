@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { PlayerList } from './player-list/player-list';
 import { PlayerDetail } from './player-detail/player-detail';
 import { PlayerForm } from './player-form/player-form';
+import { editGuard } from './guards/edit-guard';
 
 export const routes: Routes = [
   {
@@ -20,7 +21,8 @@ export const routes: Routes = [
   },
   {
     path: 'players/edit/:id',
-    component: PlayerForm
+    component: PlayerForm,
+    canActivate: [editGuard]
   },
   {
     path: 'players/:id',
