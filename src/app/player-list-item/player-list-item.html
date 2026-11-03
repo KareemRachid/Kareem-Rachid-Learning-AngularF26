@@ -35,11 +35,13 @@
     <p>Nationality: Not provided</p>
   }
 
-  <a [routerLink]="['/players', player().number]">
-    View Details
-  </a>
+  <div class="player-actions">
+    <a [routerLink]="['/players', player().number]">
+      View Details
+    </a>
 
-  <button type="button" (click)="playerClicked()">
-    Remove Player
-  </button>
+    <button type="button" (click)="playerClicked()">
+      Remove Player
+    </button>
+  </div>
 </div>

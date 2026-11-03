@@ -1,0 +1,70 @@
+
+<h2>Add New Player</h2>
+
+<form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="name">Player Name:</label>
+    <input id="name" type="text" formControlName="name">
+
+    @if (playerForm.controls.name.touched) {
+      @if (playerForm.controls.name.hasError('required')) {
+        <p>Name is required.</p>
+      }
+
+      @if (playerForm.controls.name.hasError('minlength')) {
+        <p>Name must be at least 2 characters.</p>
+      }
+    }
+  </div>
+
+  <div>
+    <label for="number">Player Number:</label>
+    <input id="number" type="number" formControlName="number">
+
+    @if (playerForm.controls.number.touched) {
+      @if (playerForm.controls.number.hasError('required')) {
+        <p>Player number is required.</p>
+      }
+
+      @if (playerForm.controls.number.hasError('min')) {
+        <p>Player number must be greater than 0.</p>
+      }
+    }
+  </div>
+
+  <div>
+    <label for="position">Position:</label>
+    <select id="position" formControlName="position">
+      <option value="Forward">Forward</option>
+      <option value="Midfielder">Midfielder</option>
+      <option value="Defender">Defender</option>
+      <option value="Goalkeeper">Goalkeeper</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="team">Team:</label>
+    <input id="team" type="text" formControlName="team">
+
+    @if (playerForm.controls.team.touched &&
+         playerForm.controls.team.hasError('required')) {
+      <p>Team is required.</p>
+    }
+  </div>
+
+  <div>
+    <label for="nationality">Nationality:</label>
+    <input id="nationality" type="text" formControlName="nationality">
+  </div>
+
+  <div>
+    <label for="imageUrl">Image URL:</label>
+    <input id="imageUrl" type="text" formControlName="imageUrl">
+  </div>
+
+  <button type="submit" [disabled]="playerForm.invalid">
+    Add Player
+  </button>
+
+</form>
