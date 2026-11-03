@@ -8,6 +8,10 @@ import {
 import { Router } from '@angular/router';
 import { Player as PlayerService } from '../services/player';
 import { Player } from '../player';
+import {
+  noWhitespaceValidator,
+  nameTeamValidator
+} from '../validators/player-validators';
 
 @Component({
   selector: 'app-player-form',
@@ -24,14 +28,35 @@ export class PlayerForm implements OnInit {
 
   isEditMode = false;
 
-  playerForm = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    number: [0, [Validators.required, Validators.min(1)]],
-    position: ['Forward' as Player['position'], Validators.required],
-    team: ['', Validators.required],
-    nationality: [''],
-    imageUrl: ['']
-  });
+  playerForm = this.fb.nonNullable.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          noWhitespaceValidator
+        ]
+      ],
+      number: [
+        0,
+        [
+          Validators.required,
+          Validators.min(1)
+        ]
+      ],
+      position: [
+        'Forward' as Player['position'],
+        Validators.required
+      ],
+      team: ['', Validators.required],
+      nationality: [''],
+      imageUrl: ['']
+    },
+    {
+      validators: nameTeamValidator
+    }
+  );
 
   ngOnInit() {
     const playerId = this.id();

@@ -15,6 +15,10 @@
       @if (playerForm.controls.name.hasError('minlength')) {
         <p>Name must be at least 2 characters.</p>
       }
+
+      @if (playerForm.controls.name.hasError('whitespace')) {
+        <p>Player name cannot contain only spaces.</p>
+      }
     }
   </div>
 
@@ -52,6 +56,14 @@
       <p>Team is required.</p>
     }
   </div>
+
+  @if (
+    playerForm.hasError('sameNameAndTeam') &&
+    playerForm.controls.name.touched &&
+    playerForm.controls.team.touched
+  ) {
+    <p>Player name and team name cannot be the same.</p>
+  }
 
   <div>
     <label for="nationality">Nationality:</label>
