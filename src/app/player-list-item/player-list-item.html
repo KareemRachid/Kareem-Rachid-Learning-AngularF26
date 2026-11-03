@@ -35,6 +35,10 @@
     <p>Nationality: Not provided</p>
   }
 
+  <a [routerLink]="['/players', player().number]">
+    View Details
+  </a>
+
   <button type="button" (click)="playerClicked()">
     Remove Player
   </button>

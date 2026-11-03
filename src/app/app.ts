@@ -1,16 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlayerList } from './player-list/player-list';
 
 @Component({
-  imports: [RouterOutlet, PlayerList],
   selector: 'app-root',
-  styleUrl: './app.scss',
+  imports: [RouterOutlet],
   templateUrl: './app.html',
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('Kareem-Rachid-Learning-AngularF26');
 
-  StudentInfo: string = "Kareem Rachid 0891773";
-  ProgramName: string = "MAD307";
+  StudentInfo: string = 'Kareem Rachid 0891773';
+  ProgramName: string = 'MAD307';
 }

@@ -4,7 +4,11 @@ import {
   provideBrowserGlobalErrorListeners
 } from '@angular/core';
 
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding
+} from '@angular/router';
+
 import { routes } from './app.routes';
 import { APP_CONFIG } from './config/app-config';
 
@@ -12,7 +16,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes),
+
+    provideRouter(routes, withComponentInputBinding()),
+
     {
       provide: APP_CONFIG,
       useValue: {
