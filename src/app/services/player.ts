@@ -1,3 +1,4 @@
+
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Player as PlayerModel } from '../player';
 import { APP_CONFIG } from '../config/app-config';
@@ -60,8 +61,22 @@ export class Player {
     });
   }
 
+  getPlayer(number: number) {
+    return this.playersSignal().find(
+      player => player.number === number
+    );
+  }
+
   addPlayer(newPlayer: PlayerModel) {
     this.playersSignal.update(list => [...list, newPlayer]);
+  }
+
+  updatePlayer(originalNumber: number, updatedPlayer: PlayerModel) {
+    this.playersSignal.update(list =>
+      list.map(player =>
+        player.number === originalNumber ? updatedPlayer : player
+      )
+    );
   }
 
   removePlayer(number: number) {

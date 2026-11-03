@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { PlayerList } from './player-list/player-list';
 import { PlayerDetail } from './player-detail/player-detail';
@@ -15,6 +16,10 @@ export const routes: Routes = [
   },
   {
     path: 'players/add',
+    component: PlayerForm
+  },
+  {
+    path: 'players/edit/:id',
     component: PlayerForm
   },
   {

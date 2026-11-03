@@ -1,10 +1,11 @@
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Player as PlayerService } from '../services/player';
 import { Player } from '../player';
 
@@ -14,9 +15,14 @@ import { Player } from '../player';
   templateUrl: './player-form.html',
   styleUrl: './player-form.css'
 })
-export class PlayerForm {
+export class PlayerForm implements OnInit {
+  id = input<string>();
+
   private fb = inject(FormBuilder);
   private playerService = inject(PlayerService);
+  private router = inject(Router);
+
+  isEditMode = false;
 
   playerForm = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -27,16 +33,41 @@ export class PlayerForm {
     imageUrl: ['']
   });
 
+  ngOnInit() {
+    const playerId = this.id();
+
+    if (playerId !== undefined) {
+      const existingPlayer = this.playerService.getPlayer(Number(playerId));
+
+      if (existingPlayer) {
+        this.isEditMode = true;
+
+        this.playerForm.patchValue({
+          name: existingPlayer.name,
+          number: existingPlayer.number,
+          position: existingPlayer.position,
+          team: existingPlayer.team,
+          nationality: existingPlayer.nationality ?? '',
+          imageUrl: existingPlayer.imageUrl
+        });
+      }
+    }
+  }
+
   onSubmit() {
     if (this.playerForm.invalid) {
       this.playerForm.markAllAsTouched();
       return;
     }
 
-    const newPlayer: Player = this.playerForm.getRawValue();
+    const player: Player = this.playerForm.getRawValue();
 
-    this.playerService.addPlayer(newPlayer);
-
-    this.playerForm.reset();
+    if (this.isEditMode) {
+      this.playerService.updatePlayer(Number(this.id()), player);
+      this.router.navigate(['/players', player.number]);
+    } else {
+      this.playerService.addPlayer(player);
+      this.playerForm.reset();
+    }
   }
 }

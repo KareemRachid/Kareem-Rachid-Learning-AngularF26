@@ -1,3 +1,4 @@
+
 <div class="player-card">
   <h2>{{ player().name }}</h2>
 
@@ -38,6 +39,10 @@
   <div class="player-actions">
     <a [routerLink]="['/players', player().number]">
       View Details
+    </a>
+
+    <a [routerLink]="['/players/edit', player().number]">
+      Edit Player
     </a>
 
     <button type="button" (click)="playerClicked()">
