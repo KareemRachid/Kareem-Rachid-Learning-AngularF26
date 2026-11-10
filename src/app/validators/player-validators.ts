@@ -19,8 +19,8 @@ export function noWhitespaceValidator(
 export function nameTeamValidator(
   group: AbstractControl
 ): ValidationErrors | null {
-  const name = group.get('name')?.value as string;
-  const team = group.get('team')?.value as string;
+  const name = group.get('strPlayer')?.value as string;
+  const team = group.get('strTeam')?.value as string;
 
   if (
     name &&

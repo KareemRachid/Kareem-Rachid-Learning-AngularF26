@@ -1,8 +1,14 @@
+
 export interface Player {
-  name: string;
-  number: number;
-  position: 'Forward' | 'Midfielder' | 'Defender' | 'Goalkeeper';
-  team: string;
-  nationality?: string;
-  imageUrl: string;
+  idPlayer: string;
+  strPlayer: string;
+  strNumber: string | null;
+  strPosition: string | null;
+  strTeam: string;
+  strNationality: string | null;
+  strThumb: string | null;
+}
+
+export interface PlayerApiResponse {
+  player: Player[] | null;
 }

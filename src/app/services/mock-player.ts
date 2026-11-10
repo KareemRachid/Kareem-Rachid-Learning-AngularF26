@@ -1,46 +1,65 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { Player as PlayerModel } from '../player';
 
-@Injectable()
+import { Injectable, signal, computed } from '@angular/core';
+import { Player } from '../player';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class MockPlayer {
-  private playersSignal = signal<PlayerModel[]>([
+  private playersSignal = signal<Player[]>([
     {
-      name: 'Mock Striker',
-      number: 99,
-      position: 'Forward',
-      team: 'Test FC',
-      nationality: 'Canada',
-      imageUrl: 'players/mbappe.jpg'
+      idPlayer: 'mock-1',
+      strPlayer: 'Mock Striker',
+      strNumber: '9',
+      strPosition: 'Forward',
+      strTeam: 'Arsenal',
+      strNationality: 'England',
+      strThumb: null
     },
     {
-      name: 'Mock Defender',
-      number: 88,
-      position: 'Defender',
-      team: 'Test FC',
-      nationality: 'England',
-      imageUrl: 'players/ramos.jpg'
+      idPlayer: 'mock-2',
+      strPlayer: 'Mock Defender',
+      strNumber: '4',
+      strPosition: 'Defender',
+      strTeam: 'Arsenal',
+      strNationality: 'England',
+      strThumb: null
     }
   ]);
 
   players = this.playersSignal.asReadonly();
 
   realMadridPlayers = computed(() =>
-    this.playersSignal().filter(player => player.team === 'Real Madrid')
+    this.playersSignal().filter(
+      player => player.strTeam === 'Arsenal'
+    )
   );
 
   realMadridPlayerCount = computed(() =>
     this.realMadridPlayers().length
   );
 
-  dataSource = 'Mock player data';
-
-  addPlayer(newPlayer: PlayerModel) {
-    this.playersSignal.update(list => [...list, newPlayer]);
+  getPlayer(id: string) {
+    return this.playersSignal().find(
+      player => player.idPlayer === id
+    );
   }
 
-  removePlayer(number: number) {
+  addPlayer(player: Player) {
+    this.playersSignal.update(list => [...list, player]);
+  }
+
+  updatePlayer(id: string, updatedPlayer: Player) {
     this.playersSignal.update(list =>
-      list.filter(player => player.number !== number)
+      list.map(player =>
+        player.idPlayer === id ? updatedPlayer : player
+      )
+    );
+  }
+
+  removePlayer(id: string) {
+    this.playersSignal.update(list =>
+      list.filter(player => player.idPlayer !== id)
     );
   }
 }

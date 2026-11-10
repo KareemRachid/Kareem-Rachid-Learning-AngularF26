@@ -1,47 +1,27 @@
 
 <div class="player-card">
-  <h2>{{ player().name }}</h2>
+  <h2>{{ player().strPlayer }}</h2>
 
-  <p>Number: {{ player().number }}</p>
+  <p>Number: {{ player().strNumber || 'N/A' }}</p>
 
-  <img
-    [src]="player().imageUrl"
-    [alt]="player().name"
-    class="player-image"
-  >
-
-  <p>Team: {{ player().team }}</p>
-
-  @switch (player().position) {
-    @case ('Forward') {
-      <p>Position: Forward</p>
-    }
-    @case ('Midfielder') {
-      <p>Position: Midfielder</p>
-    }
-    @case ('Defender') {
-      <p>Position: Defender</p>
-    }
-    @case ('Goalkeeper') {
-      <p>Position: Goalkeeper</p>
-    }
-    @default {
-      <p>Position: Unknown</p>
-    }
+  @if (player().strThumb) {
+    <img
+      [src]="player().strThumb"
+      [alt]="player().strPlayer"
+      class="player-image"
+    >
   }
 
-  @if (player().nationality) {
-    <p>Nationality: {{ player().nationality }}</p>
-  } @else {
-    <p>Nationality: Not provided</p>
-  }
+  <p>Team: {{ player().strTeam }}</p>
+  <p>Position: {{ player().strPosition || 'Unknown' }}</p>
+  <p>Nationality: {{ player().strNationality || 'Not provided' }}</p>
 
   <div class="player-actions">
-    <a [routerLink]="['/players', player().number]">
+    <a [routerLink]="['/players', player().idPlayer]">
       View Details
     </a>
 
-    <a [routerLink]="['/players/edit', player().number]">
+    <a [routerLink]="['/players/edit', player().idPlayer]">
       Edit Player
     </a>
 

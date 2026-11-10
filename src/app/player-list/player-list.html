@@ -1,34 +1,19 @@
-<h2>Real Madrid Players: {{ realMadridPlayerCount() }}</h2>
 
-@for (
-  player of players();
-  track player.number;
-  let even = $even;
-  let odd = $odd;
-  let first = $first;
-  let last = $last;
-  let count = $count
-) {
-  @if (first) {
-    <h2>Showing {{ count }} players</h2>
-  }
+<h2>Player List</h2>
 
-  <div
-    [class.even]="even"
-    [class.odd]="odd"
-    [class.first]="first"
-    [class.last]="last">
+<p>Total Players: {{ players().length }}</p>
 
-    @if (first) {
-      <p class="badge">First Player</p>
+<p>Arsenal Players: {{ realMadridPlayerCount() }}</p>
+
+@if (players().length > 0) {
+  <div class="player-list">
+    @for (player of players(); track player.idPlayer) {
+      <app-player-list-item
+        [player]="player"
+        (playerEvent)="handlePlayerEvent($event)"
+      />
     }
-
-    <app-player-list-item
-      [player]="player"
-      (playerEvent)="handlePlayerEvent($event)">
-    </app-player-list-item>
-
   </div>
-} @empty {
+} @else {
   <p>No players available.</p>
 }

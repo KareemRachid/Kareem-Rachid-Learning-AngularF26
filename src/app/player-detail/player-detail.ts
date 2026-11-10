@@ -1,3 +1,4 @@
+
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Player } from '../services/player';
@@ -14,10 +15,10 @@ export class PlayerDetail {
   private playerService = inject(Player);
 
   selectedPlayer = computed(() => {
-    const playerNumber = Number(this.id());
+    const playerId = this.id();
 
     return this.playerService.players().find(
-      player => player.number === playerNumber
+      player => player.idPlayer === playerId
     );
   });
 }

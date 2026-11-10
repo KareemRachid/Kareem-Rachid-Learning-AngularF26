@@ -30,7 +30,7 @@ export class PlayerForm implements OnInit {
 
   playerForm = this.fb.nonNullable.group(
     {
-      name: [
+      strPlayer: [
         '',
         [
           Validators.required,
@@ -38,20 +38,11 @@ export class PlayerForm implements OnInit {
           noWhitespaceValidator
         ]
       ],
-      number: [
-        0,
-        [
-          Validators.required,
-          Validators.min(1)
-        ]
-      ],
-      position: [
-        'Forward' as Player['position'],
-        Validators.required
-      ],
-      team: ['', Validators.required],
-      nationality: [''],
-      imageUrl: ['']
+      strNumber: [''],
+      strPosition: ['Forward'],
+      strTeam: ['', Validators.required],
+      strNationality: [''],
+      strThumb: ['']
     },
     {
       validators: nameTeamValidator
@@ -62,18 +53,18 @@ export class PlayerForm implements OnInit {
     const playerId = this.id();
 
     if (playerId !== undefined) {
-      const existingPlayer = this.playerService.getPlayer(Number(playerId));
+      const existingPlayer = this.playerService.getPlayer(playerId);
 
       if (existingPlayer) {
         this.isEditMode = true;
 
         this.playerForm.patchValue({
-          name: existingPlayer.name,
-          number: existingPlayer.number,
-          position: existingPlayer.position,
-          team: existingPlayer.team,
-          nationality: existingPlayer.nationality ?? '',
-          imageUrl: existingPlayer.imageUrl
+          strPlayer: existingPlayer.strPlayer,
+          strNumber: existingPlayer.strNumber ?? '',
+          strPosition: existingPlayer.strPosition ?? 'Forward',
+          strTeam: existingPlayer.strTeam,
+          strNationality: existingPlayer.strNationality ?? '',
+          strThumb: existingPlayer.strThumb ?? ''
         });
       }
     }
@@ -85,11 +76,23 @@ export class PlayerForm implements OnInit {
       return;
     }
 
-    const player: Player = this.playerForm.getRawValue();
+    const values = this.playerForm.getRawValue();
+
+    const player: Player = {
+      idPlayer: this.isEditMode
+        ? this.id()!
+        : `local-${Date.now()}`,
+      strPlayer: values.strPlayer,
+      strNumber: values.strNumber || null,
+      strPosition: values.strPosition || null,
+      strTeam: values.strTeam,
+      strNationality: values.strNationality || null,
+      strThumb: values.strThumb || null
+    };
 
     if (this.isEditMode) {
-      this.playerService.updatePlayer(Number(this.id()), player);
-      this.router.navigate(['/players', player.number]);
+      this.playerService.updatePlayer(this.id()!, player);
+      this.router.navigate(['/players', player.idPlayer]);
     } else {
       this.playerService.addPlayer(player);
       this.playerForm.reset();
