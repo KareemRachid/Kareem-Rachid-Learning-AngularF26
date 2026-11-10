@@ -1,3 +1,4 @@
+
 import {
   ApplicationConfig,
   provideZonelessChangeDetection,
@@ -9,10 +10,14 @@ import {
   withComponentInputBinding
 } from '@angular/router';
 
-import { provideHttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors
+} from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { APP_CONFIG } from './config/app-config';
+import { loadingInterceptor } from './interceptors/loading';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +26,9 @@ export const appConfig: ApplicationConfig = {
 
     provideRouter(routes, withComponentInputBinding()),
 
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([loadingInterceptor])
+    ),
 
     {
       provide: APP_CONFIG,

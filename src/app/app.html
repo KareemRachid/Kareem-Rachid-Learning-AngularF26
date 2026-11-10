@@ -3,13 +3,19 @@
   <h1>Player Management System</h1>
 
   <nav>
-    <a routerLink="/players">Players</a>
-    |
-    <a routerLink="/players/add">Add Player</a>
-    |
+    <a routerLink="/players">Players</a> |
+
+    <a routerLink="/players/add">Add Player</a> |
+
     <button type="button" (click)="toggleEditing()">
       {{ editGuard.guardEnabled() ? 'Unlock Editing' : 'Lock Editing' }}
     </button>
+
+    @if (loadingService.isLoading()) {
+      <span role="status" aria-live="polite">
+        | Loading...
+      </span>
+    }
   </nav>
 </header>
 
