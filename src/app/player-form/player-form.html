@@ -1,6 +1,8 @@
 
 <h2>{{ isEditMode ? 'Edit Player' : 'Add New Player' }}</h2>
 
+<p>Changes are saved in this session only. Refreshing will restore API data.</p>
+
 <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
 
   <div>
@@ -59,7 +61,11 @@
 
   <div>
     <label for="strNationality">Nationality:</label>
-    <input id="strNationality" type="text" formControlName="strNationality">
+    <input
+      id="strNationality"
+      type="text"
+      formControlName="strNationality"
+    >
   </div>
 
   <div>

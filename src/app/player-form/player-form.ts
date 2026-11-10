@@ -1,13 +1,21 @@
 
-import { Component, inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  effect
+} from '@angular/core';
+
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+
 import { Router } from '@angular/router';
 import { Player as PlayerService } from '../services/player';
 import { Player } from '../player';
+
 import {
   noWhitespaceValidator,
   nameTeamValidator
@@ -19,7 +27,7 @@ import {
   templateUrl: './player-form.html',
   styleUrl: './player-form.css'
 })
-export class PlayerForm implements OnInit {
+export class PlayerForm {
   id = input<string>();
 
   private fb = inject(FormBuilder);
@@ -27,6 +35,7 @@ export class PlayerForm implements OnInit {
   private router = inject(Router);
 
   isEditMode = false;
+  private loadedPlayerId: string | null = null;
 
   playerForm = this.fb.nonNullable.group(
     {
@@ -39,7 +48,7 @@ export class PlayerForm implements OnInit {
         ]
       ],
       strNumber: [''],
-      strPosition: ['Forward'],
+      strPosition: ['Forward', Validators.required],
       strTeam: ['', Validators.required],
       strNationality: [''],
       strThumb: ['']
@@ -49,25 +58,32 @@ export class PlayerForm implements OnInit {
     }
   );
 
-  ngOnInit() {
-    const playerId = this.id();
+  constructor() {
+    effect(() => {
+      const playerId = this.id();
 
-    if (playerId !== undefined) {
+      if (!playerId || this.loadedPlayerId === playerId) {
+        return;
+      }
+
       const existingPlayer = this.playerService.getPlayer(playerId);
 
-      if (existingPlayer) {
-        this.isEditMode = true;
-
-        this.playerForm.patchValue({
-          strPlayer: existingPlayer.strPlayer,
-          strNumber: existingPlayer.strNumber ?? '',
-          strPosition: existingPlayer.strPosition ?? 'Forward',
-          strTeam: existingPlayer.strTeam,
-          strNationality: existingPlayer.strNationality ?? '',
-          strThumb: existingPlayer.strThumb ?? ''
-        });
+      if (!existingPlayer) {
+        return;
       }
-    }
+
+      this.isEditMode = true;
+      this.loadedPlayerId = playerId;
+
+      this.playerForm.patchValue({
+        strPlayer: existingPlayer.strPlayer,
+        strNumber: existingPlayer.strNumber ?? '',
+        strPosition: existingPlayer.strPosition ?? 'Forward',
+        strTeam: existingPlayer.strTeam,
+        strNationality: existingPlayer.strNationality ?? '',
+        strThumb: existingPlayer.strThumb ?? ''
+      });
+    });
   }
 
   onSubmit() {
@@ -81,7 +97,7 @@ export class PlayerForm implements OnInit {
     const player: Player = {
       idPlayer: this.isEditMode
         ? this.id()!
-        : `local-${Date.now()}`,
+        : crypto.randomUUID(),
       strPlayer: values.strPlayer,
       strNumber: values.strNumber || null,
       strPosition: values.strPosition || null,
@@ -96,6 +112,7 @@ export class PlayerForm implements OnInit {
     } else {
       this.playerService.addPlayer(player);
       this.playerForm.reset();
+      this.router.navigate(['/players']);
     }
   }
 }
