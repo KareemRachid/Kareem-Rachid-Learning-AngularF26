@@ -21,4 +21,17 @@
 
 <hr>
 
+@if (errorService.error(); as message) {
+  <div
+    role="alert"
+    style="padding: 12px; border: 1px solid red; margin-bottom: 15px;"
+  >
+    <strong>Error:</strong> {{ message }}
+
+    <button type="button" (click)="dismissError()">
+      Dismiss
+    </button>
+  </div>
+}
+
 <router-outlet />

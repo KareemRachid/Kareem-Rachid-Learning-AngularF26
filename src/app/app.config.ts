@@ -17,7 +17,9 @@ import {
 
 import { routes } from './app.routes';
 import { APP_CONFIG } from './config/app-config';
+
 import { loadingInterceptor } from './interceptors/loading';
+import { errorInterceptor } from './interceptors/error';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,8 +28,13 @@ export const appConfig: ApplicationConfig = {
 
     provideRouter(routes, withComponentInputBinding()),
 
+    // Loading runs first to track the full request lifecycle.
+    // Error handling runs second to capture HTTP failures.
     provideHttpClient(
-      withInterceptors([loadingInterceptor])
+      withInterceptors([
+        loadingInterceptor,
+        errorInterceptor
+      ])
     ),
 
     {
