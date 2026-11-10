@@ -16,6 +16,9 @@ export class PlayerList {
   private playerService = inject(PlayerService);
 
   players = this.playerService.players;
+  loading = this.playerService.loading;
+  error = this.playerService.error;
+
   realMadridPlayerCount = this.playerService.realMadridPlayerCount;
 
   handlePlayerEvent(event: PlayerEvent) {

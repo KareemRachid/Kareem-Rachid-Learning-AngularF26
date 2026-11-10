@@ -1,19 +1,24 @@
 
 <h2>Player List</h2>
 
-<p>Total Players: {{ players().length }}</p>
-
-<p>Arsenal Players: {{ realMadridPlayerCount() }}</p>
-
-@if (players().length > 0) {
-  <div class="player-list">
-    @for (player of players(); track player.idPlayer) {
-      <app-player-list-item
-        [player]="player"
-        (playerEvent)="handlePlayerEvent($event)"
-      />
-    }
-  </div>
+@if (loading()) {
+  <p>Loading Arsenal players...</p>
+} @else if (error()) {
+  <p role="alert">{{ error() }}</p>
 } @else {
-  <p>No players available.</p>
+  <p>Total Players: {{ players().length }}</p>
+  <p>Arsenal Players: {{ realMadridPlayerCount() }}</p>
+
+  @if (players().length > 0) {
+    <div class="player-list">
+      @for (player of players(); track player.idPlayer) {
+        <app-player-list-item
+          [player]="player"
+          (playerEvent)="handlePlayerEvent($event)"
+        />
+      }
+    </div>
+  } @else {
+    <p>No players available.</p>
+  }
 }
