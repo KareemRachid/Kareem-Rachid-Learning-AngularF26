@@ -1,3 +1,4 @@
+
 import {
   ApplicationConfig,
   provideZonelessChangeDetection,
@@ -22,8 +23,8 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG,
       useValue: {
-        apiBaseUrl: 'https://placeholder.example.com/api',
-        defaultCategory: 'Real Madrid'
+        apiBaseUrl: 'https://www.thesportsdb.com/api/v1/json/123',
+        defaultCategory: 'Arsenal'
       }
     }
   ]
