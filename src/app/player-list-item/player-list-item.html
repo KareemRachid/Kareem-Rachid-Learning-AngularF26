@@ -1,6 +1,5 @@
-
 <div class="player-card">
-  <h2>{{ player().strPlayer }}</h2>
+  <h2>{{ player().strPlayer | playerName | uppercase }}</h2>
 
   <p>Number: {{ player().strNumber || 'N/A' }}</p>
 
@@ -13,8 +12,12 @@
   }
 
   <p>Team: {{ player().strTeam }}</p>
-  <p>Position: {{ player().strPosition || 'Unknown' }}</p>
+
+  <p>Position: {{ player().strPosition | playerPosition | titlecase }}</p>
+
   <p>Nationality: {{ player().strNationality || 'Not provided' }}</p>
+
+  <p>Last Viewed: {{ today | date:'mediumDate' }}</p>
 
   <div class="player-actions">
     <a [routerLink]="['/players', player().idPlayer]">

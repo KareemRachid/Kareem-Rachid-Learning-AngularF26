@@ -1,7 +1,9 @@
-
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UpperCasePipe, TitleCasePipe, DatePipe } from '@angular/common';
 import { Player } from '../player';
+import { PlayerNamePipe } from '../pipes/player-name-pipe';
+import { PlayerPositionPipe } from '../pipes/player-position-pipe';
 
 export interface PlayerEvent {
   id: string;
@@ -9,7 +11,14 @@ export interface PlayerEvent {
 }
 
 @Component({
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    UpperCasePipe,
+    TitleCasePipe,
+    DatePipe,
+    PlayerNamePipe,
+    PlayerPositionPipe
+  ],
   selector: 'app-player-list-item',
   styleUrl: './player-list-item.css',
   templateUrl: './player-list-item.html'
@@ -18,6 +27,8 @@ export class PlayerListItem {
   player = input.required<Player>();
 
   playerEvent = output<PlayerEvent>();
+
+  today = new Date();
 
   playerClicked() {
     this.playerEvent.emit({
