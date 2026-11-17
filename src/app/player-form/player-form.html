@@ -7,7 +7,12 @@
 
   <div>
     <label for="strPlayer">Player Name:</label>
-    <input id="strPlayer" type="text" formControlName="strPlayer">
+    <input
+      #playerNameInput
+      id="strPlayer"
+      type="text"
+      formControlName="strPlayer"
+    >
 
     @if (playerForm.controls.strPlayer.touched) {
       @if (playerForm.controls.strPlayer.hasError('required')) {

@@ -1,9 +1,14 @@
 
 import {
   Component,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  afterNextRender,
   inject,
   input,
-  effect
+  effect,
+  viewChild
 } from '@angular/core';
 
 import {
@@ -27,12 +32,15 @@ import {
   templateUrl: './player-form.html',
   styleUrl: './player-form.css'
 })
-export class PlayerForm {
+export class PlayerForm implements OnInit, OnDestroy {
   id = input<string>();
 
   private fb = inject(FormBuilder);
   private playerService = inject(PlayerService);
   private router = inject(Router);
+
+  playerNameInput =
+    viewChild<ElementRef<HTMLInputElement>>('playerNameInput');
 
   isEditMode = false;
   private loadedPlayerId: string | null = null;
@@ -66,7 +74,8 @@ export class PlayerForm {
         return;
       }
 
-      const existingPlayer = this.playerService.getPlayer(playerId);
+      const existingPlayer =
+        this.playerService.getPlayer(playerId);
 
       if (!existingPlayer) {
         return;
@@ -84,6 +93,19 @@ export class PlayerForm {
         strThumb: existingPlayer.strThumb ?? ''
       });
     });
+
+    afterNextRender(() => {
+      this.playerNameInput()?.nativeElement.focus();
+      console.log('Player name input focused');
+    });
+  }
+
+  ngOnInit(): void {
+    console.log('Player Form initialized');
+  }
+
+  ngOnDestroy(): void {
+    console.log('Player Form destroyed');
   }
 
   onSubmit() {

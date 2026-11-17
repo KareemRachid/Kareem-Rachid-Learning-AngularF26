@@ -1,8 +1,5 @@
 
 import { Routes } from '@angular/router';
-import { PlayerList } from './player-list/player-list';
-import { PlayerDetail } from './player-detail/player-detail';
-import { PlayerForm } from './player-form/player-form';
 import { editGuard } from './guards/edit-guard';
 
 export const routes: Routes = [
@@ -13,20 +10,28 @@ export const routes: Routes = [
   },
   {
     path: 'players',
-    component: PlayerList
+    loadComponent: () =>
+      import('./player-list/player-list')
+        .then(m => m.PlayerList)
   },
   {
     path: 'players/add',
-    component: PlayerForm
+    loadComponent: () =>
+      import('./player-form/player-form')
+        .then(m => m.PlayerForm)
   },
   {
     path: 'players/edit/:id',
-    component: PlayerForm,
+    loadComponent: () =>
+      import('./player-form/player-form')
+        .then(m => m.PlayerForm),
     canActivate: [editGuard]
   },
   {
     path: 'players/:id',
-    component: PlayerDetail
+    loadComponent: () =>
+      import('./player-detail/player-detail')
+        .then(m => m.PlayerDetail)
   },
   {
     path: '**',
