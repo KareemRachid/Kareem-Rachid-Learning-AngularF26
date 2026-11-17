@@ -1,3 +1,4 @@
+
 <div class="player-card">
   <h2>{{ player().strPlayer | playerName | uppercase }}</h2>
 
@@ -13,7 +14,10 @@
 
   <p>Team: {{ player().strTeam }}</p>
 
-  <p>Position: {{ player().strPosition | playerPosition | titlecase }}</p>
+  <p>
+    Position:
+    {{ player().strPosition | playerPosition:true | titlecase }}
+  </p>
 
   <p>Nationality: {{ player().strNationality || 'Not provided' }}</p>
 
