@@ -3,17 +3,17 @@
 
 ## Project Overview
 
-This project is an Angular football player roster application.
+This project is an Angular football player roster application using TheSportsDB API.
 
 Users can:
-- View football players retrieved from an API.
+- View football players.
 - View individual player details.
 - Add new players.
 - Edit existing players.
 - Remove players.
 - Navigate between pages using Angular routing.
 
-Assignment 8 introduces built-in pipes, custom pipes, lazy loading, lifecycle hooks, and automatic input focus.
+Assignment 8 adds built-in pipes, custom pipes, lazy loading, lifecycle hooks, and automatic input focus.
 
 ## API
 
@@ -25,62 +25,91 @@ https://www.thesportsdb.com/api.php
 Example request:
 https://www.thesportsdb.com/api/v1/json/123/lookup_all_players.php?id=133604
 
-The API returns JSON containing a player array with information such as player names, positions, teams, and images.
+The API returns JSON containing a player array with player names, positions, teams, and images.
 
-## Built-in Pipes
+## Part 1 - Built-in Pipes
 
-Three Angular built-in pipes are used:
+Three Angular built-in pipes are used in the Player List component.
 
-1. UpperCasePipe - Displays player names in uppercase.
-2. TitleCasePipe - Formats player positions in title case.
-3. DatePipe - Formats a date using the mediumDate parameter.
+### UpperCasePipe
 
-## Custom Pipes
+Displays player names in uppercase.
 
-Two custom pipes were created using the Angular CLI.
+Example:
+
+`player().strPlayer | uppercase`
+
+### TitleCasePipe
+
+Formats player positions in title case.
+
+Example:
+
+`player().strPosition | titlecase`
+
+### DatePipe
+
+Formats a date using the mediumDate parameter.
+
+Example:
+
+`today | date:'mediumDate'`
+
+## Part 2 - Custom Pipes
+
+Two custom pipes were generated using the Angular CLI.
 
 ### PlayerNamePipe
 
-Removes leading and trailing whitespace and displays "Unknown Player" when the input is missing or empty.
+This pipe removes leading and trailing whitespace from player names.
+
+If the input is null, undefined, or empty, it returns "Unknown Player".
 
 ### PlayerPositionPipe
 
-Removes leading and trailing whitespace and displays "Unknown Position" when the input is missing or empty.
+This pipe formats player positions and accepts an optional boolean parameter.
 
-Both pipes handle null, undefined, and empty strings.
+The parameter determines whether the position is abbreviated.
 
-Both custom pipes use the @Pipe decorator and implement PipeTransform.
+Examples:
+
+- Forward becomes FWD.
+- Midfielder becomes MID.
+- Defender becomes DEF.
+- Goalkeeper becomes GK.
+
+The parameter defaults to false.
+
+Example usage:
+
+`player().strPosition | playerPosition:true`
+
+If the input is null, undefined, or empty, the pipe returns "Unknown Position".
 
 ### Pipe Chaining
 
-The custom pipes are chained with built-in pipes.
+The application chains custom pipes with built-in pipes.
 
 Examples:
 
 `player().strPlayer | playerName | uppercase`
 
-`player().strPosition | playerPosition | titlecase`
+`player().strPosition | playerPosition:true | titlecase`
 
-All pipes use the default pure behavior.
+Both custom pipes use the @Pipe decorator, implement PipeTransform, and retain the default pure behavior.
 
-## Lazy Loading
+## Part 3 - Lazy Loading
 
 The application uses loadComponent with dynamic import() for route components.
 
-Lazy-loaded pages include:
+Lazy-loaded routes include:
 
 - Player List
 - Player Detail
 - Add Player
 - Edit Player
 
-The editGuard remains active on the edit route.
-
-Lazy loading reduces the amount of JavaScript initially downloaded because route components are loaded when needed.
-
-## Build Chunk Comparison
-
-The project was built using ng build before and after implementing lazy loading.
+The edit route continues to use editGuard.
 
 ### Before Lazy Loading - Assignment 7
 
@@ -88,15 +117,13 @@ Initial bundle raw size: 310.59 kB
 
 Estimated transfer size: 81.37 kB
 
-The route components were included in the initial bundle.
-
 ### After Lazy Loading - Assignment 8
 
 Initial bundle raw size: 284.64 kB
 
 Estimated transfer size: 78.15 kB
 
-Lazy chunks:
+### Lazy Chunk Files
 
 | Chunk | Raw Size |
 |---|---|
@@ -115,80 +142,92 @@ Percentage reduction: approximately 8.4%.
 
 The estimated transfer size decreased from 81.37 kB to 78.15 kB.
 
-The initial bundle is smaller because Angular can load route components separately instead of including them all in the initial bundle.
+Lazy loading reduces the initial bundle because Angular loads route components separately when they are needed.
 
-The application uses a redirect from the empty path to the player list.
+### Network Tab Verification
 
-## Lifecycle
+Lazy loading was tested using Chrome Developer Tools.
+
+The Network tab showed a dynamically requested JavaScript chunk when navigating to the Player Detail route.
+
+The player-detail component also loaded successfully.
+
+This confirmed that Angular was loading the route dynamically.
+
+## Part 4 - Lifecycle Hooks
+
+The Player Detail component implements OnInit and OnDestroy.
 
 ### ngOnInit
 
-The Player Detail component implements OnInit.
-
-In ngOnInit, the component reads the route ID, looks up the player, and records the opening time using Date.now().
+When a player detail page opens, ngOnInit reads the route ID, looks up the player, and records the opening time using Date.now().
 
 Example:
 
-`[lifecycle] opened: Kylian Mbappé`
+`[lifecycle] opened: Albert Stuivenberg`
 
 ### ngOnDestroy
 
-The Player Detail component implements OnDestroy.
-
-In ngOnDestroy, the component calculates the time spent on the page and logs the player's name.
-
-Example:
-
-`[lifecycle] closed: Kylian Mbappé after 5 seconds`
+When the user leaves the detail page, ngOnDestroy calculates the time spent on the page.
 
 The duration is rounded to whole seconds.
+
+Actual console results:
+
+`[lifecycle] opened: Albert Stuivenberg`
+
+`[lifecycle] closed: Albert Stuivenberg after 52 seconds`
+
+`[lifecycle] opened: Ben White`
+
+`[lifecycle] closed: Ben White after 6 seconds`
 
 ### Constructor Experiment
 
 The route ID was temporarily accessed using this.id() inside the constructor.
 
-The result was undefined because Angular had not yet assigned the route input when the constructor executed.
+The value was undefined because Angular had not yet assigned the route input.
 
-In ngOnInit, the input was available because Angular had initialized the component inputs.
+In ngOnInit, the route input was available because Angular had initialized the component inputs.
 
-This demonstrates why reading route input values in ngOnInit is more appropriate than reading them in the constructor.
+This demonstrates why route input values should be read after Angular initializes them.
 
-The temporary constructor was removed after the experiment.
+The temporary constructor was removed after testing.
 
 ### Navigation and Destruction
 
 Navigating away from the Player Detail route causes Angular to destroy the detail component.
 
-This triggers ngOnDestroy and allows the application to log the time spent on that page.
+This triggers ngOnDestroy and allows the application to log how long the user spent viewing the player.
 
-## afterNextRender and viewChild
+## Going Further - afterNextRender and viewChild
 
 The Player Form uses viewChild to reference the Player Name input.
 
 The component registers afterNextRender in its constructor.
 
-After Angular renders the form, the input automatically receives focus.
+After Angular renders the form, the Player Name input automatically receives focus.
 
-This belongs in afterNextRender rather than ngOnInit because it interacts with a rendered DOM element.
+This belongs in afterNextRender instead of ngOnInit because focusing the input requires the DOM element to have been rendered.
 
-The Add Player and Edit Player functionality remains available.
+The functionality works on both Add Player and Edit Player forms.
 
 ## Testing
 
-The following features should be verified:
+The following features were implemented:
 
-- Player list displays API data.
-- Built-in pipes format player information.
-- Custom pipes handle missing values.
-- Player details display correctly.
-- Add Player works.
-- Edit Player works.
-- Remove Player works.
-- Edit guard remains functional.
-- Lazy-loaded routes load correctly.
-- Lifecycle messages appear in the browser console.
-- Player Name input receives focus.
-- Angular production build completes successfully.
+- Built-in pipes.
+- Two custom pipes.
+- Custom pipe parameter.
+- Pipe chaining.
+- Missing-value handling.
+- Lazy-loaded routes.
+- Route guards.
+- Lifecycle hooks.
+- Time tracking on player details.
+- Automatic input focus.
+
+The Angular production build completed successfully.
 
 ## Running the Application
 
@@ -196,7 +235,7 @@ Install dependencies:
 
 `npm install`
 
-Start the application:
+Start the development server:
 
 `ng serve`
 
@@ -204,7 +243,7 @@ Open:
 
 http://localhost:4200
 
-Build:
+Build the application:
 
 `ng build`
 
