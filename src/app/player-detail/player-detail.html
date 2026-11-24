@@ -16,6 +16,17 @@
     <p>Position: {{ player.strPosition || 'Unknown' }}</p>
     <p>Team: {{ player.strTeam }}</p>
     <p>Nationality: {{ player.strNationality || 'Not provided' }}</p>
+
+    <button
+      type="button"
+      (click)="savedService.toggle(player.idPlayer)"
+    >
+      {{
+        savedService.isSaved(player.idPlayer)
+          ? 'Unsave Player'
+          : 'Save Player'
+      }}
+    </button>
   </div>
 } @else {
   <p>Player not found.</p>

@@ -1,0 +1,21 @@
+<h2>Saved Players</h2>
+
+@if (loading()) {
+  <p>Loading saved players...</p>
+} @else if (savedPlayers().length > 0) {
+  <p>Total Saved Players: {{ savedPlayers().length }}</p>
+
+  <ul>
+    @for (player of savedPlayers(); track player.idPlayer) {
+      <li>
+        <a [routerLink]="['/players', player.idPlayer]">
+          {{ player.strPlayer }}
+        </a>
+      </li>
+    }
+  </ul>
+} @else {
+  <p>You haven't saved any available players yet.</p>
+}
+
+<a routerLink="/players">Back to Players</a>

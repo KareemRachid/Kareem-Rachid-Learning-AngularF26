@@ -10,6 +10,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Player } from '../services/player';
 import { Highlight } from '../directives/highlight';
+import { SavedService } from '../services/saved';
 
 @Component({
   selector: 'app-player-detail',
@@ -21,6 +22,7 @@ export class PlayerDetail implements OnInit, OnDestroy {
   id = input<string>();
 
   private playerService = inject(Player);
+  savedService = inject(SavedService);
 
   private openedAt = 0;
   private openedPlayerName = 'Unknown Player';

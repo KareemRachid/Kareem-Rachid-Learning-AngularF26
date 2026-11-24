@@ -1,15 +1,26 @@
-import { Directive, input, signal } from '@angular/core';
+import {
+  Directive,
+  input,
+  signal,
+  inject
+} from '@angular/core';
+
+import { PreferencesService } from '../services/preferences';
 
 @Directive({
   selector: '[appHighlight]',
   host: {
     '(mouseenter)': 'hovered.set(true)',
     '(mouseleave)': 'hovered.set(false)',
-    '[style.backgroundColor]': 'hovered() ? color() || "#e0f2fe" : null'
+    '[style.backgroundColor]': 'hovered() && preferences.highlightEnabled() ? color() || "#e0f2fe" : null'
   }
 })
 export class Highlight {
-  color = input('', { alias: 'appHighlight' });
+  preferences = inject(PreferencesService);
+
+  color = input('', {
+    alias: 'appHighlight'
+  });
 
   hovered = signal(false);
 }
