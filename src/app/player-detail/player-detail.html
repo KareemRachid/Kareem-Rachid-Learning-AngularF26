@@ -1,8 +1,7 @@
-
 <h2>Player Details</h2>
 
 @if (selectedPlayer(); as player) {
-  <div class="player-card">
+  <div class="player-card" appHighlight="#dcfce7">
     <h3>{{ player.strPlayer }}</h3>
 
     @if (player.strThumb) {

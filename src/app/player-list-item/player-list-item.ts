@@ -4,6 +4,7 @@ import { UpperCasePipe, TitleCasePipe, DatePipe } from '@angular/common';
 import { Player } from '../player';
 import { PlayerNamePipe } from '../pipes/player-name-pipe';
 import { PlayerPositionPipe } from '../pipes/player-position-pipe';
+import { Highlight } from '../directives/highlight';
 
 export interface PlayerEvent {
   id: string;
@@ -17,7 +18,8 @@ export interface PlayerEvent {
     TitleCasePipe,
     DatePipe,
     PlayerNamePipe,
-    PlayerPositionPipe
+    PlayerPositionPipe,
+    Highlight
   ],
   selector: 'app-player-list-item',
   styleUrl: './player-list-item.css',

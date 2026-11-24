@@ -1,4 +1,3 @@
-
 import {
   Component,
   computed,
@@ -10,10 +9,11 @@ import {
 
 import { RouterLink } from '@angular/router';
 import { Player } from '../services/player';
+import { Highlight } from '../directives/highlight';
 
 @Component({
   selector: 'app-player-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, Highlight],
   templateUrl: './player-detail.html',
   styleUrl: './player-detail.css'
 })
