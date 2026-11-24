@@ -250,3 +250,7 @@ Build the application:
 ## Version
 
 0.7.0
+
+## localStorage
+
+The application stores saved player IDs and the user's highlight preference in localStorage so they remain available after refreshing the browser. Player data retrieved from the API is never stored in localStorage.
