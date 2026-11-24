@@ -1,4 +1,3 @@
-
 import {
   Injectable,
   signal,
@@ -18,15 +17,21 @@ export class Player {
   private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
 
-  private playersSignal = signal<PlayerModel[]>([]);
+  private readonly storageKey = 'playermanager.customPlayers';
 
-  players = this.playersSignal.asReadonly();
+  private apiPlayers = signal<PlayerModel[]>([]);
+  private customPlayers = signal<PlayerModel[]>(this.loadCustomPlayers());
+
+  players = computed(() => [
+    ...this.apiPlayers(),
+    ...this.customPlayers()
+  ]);
 
   loading = signal(false);
   error = signal<string | null>(null);
 
   realMadridPlayers = computed(() =>
-    this.playersSignal().filter(
+    this.players().filter(
       player => player.strTeam === this.config.defaultCategory
     )
   );
@@ -41,8 +46,37 @@ export class Player {
     this.loadPlayers();
 
     effect(() => {
-      console.log('Player count:', this.playersSignal().length);
+      console.log('Player count:', this.players().length);
     });
+
+    effect(() => {
+      const players = this.customPlayers();
+
+      try {
+        localStorage.setItem(
+          this.storageKey,
+          JSON.stringify(players)
+        );
+      } catch (error) {
+        console.error('Unable to save custom players:', error);
+      }
+    });
+  }
+
+  private loadCustomPlayers(): PlayerModel[] {
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+
+      if (!stored) {
+        return [];
+      }
+
+      const parsed = JSON.parse(stored);
+
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
   }
 
   loadPlayers() {
@@ -57,7 +91,7 @@ export class Player {
       }
     }).subscribe({
       next: (response) => {
-        this.playersSignal.set(response.player ?? []);
+        this.apiPlayers.set(response.player ?? []);
         this.loading.set(false);
       },
 
@@ -70,25 +104,40 @@ export class Player {
   }
 
   getPlayer(id: string) {
-    return this.playersSignal().find(
+    return this.players().find(
       player => player.idPlayer === id
     );
   }
 
   addPlayer(newPlayer: PlayerModel) {
-    this.playersSignal.update(list => [...list, newPlayer]);
+    this.customPlayers.update(list => [
+      ...list,
+      newPlayer
+    ]);
   }
 
   updatePlayer(id: string, updatedPlayer: PlayerModel) {
-    this.playersSignal.update(list =>
-      list.map(player =>
-        player.idPlayer === id ? updatedPlayer : player
-      )
-    );
+    if (this.customPlayers().some(player => player.idPlayer === id)) {
+      this.customPlayers.update(list =>
+        list.map(player =>
+          player.idPlayer === id ? updatedPlayer : player
+        )
+      );
+    } else {
+      this.apiPlayers.update(list =>
+        list.map(player =>
+          player.idPlayer === id ? updatedPlayer : player
+        )
+      );
+    }
   }
 
   removePlayer(id: string) {
-    this.playersSignal.update(list =>
+    this.customPlayers.update(list =>
+      list.filter(player => player.idPlayer !== id)
+    );
+
+    this.apiPlayers.update(list =>
       list.filter(player => player.idPlayer !== id)
     );
   }
