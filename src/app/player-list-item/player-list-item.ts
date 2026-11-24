@@ -5,6 +5,7 @@ import { Player } from '../player';
 import { PlayerNamePipe } from '../pipes/player-name-pipe';
 import { PlayerPositionPipe } from '../pipes/player-position-pipe';
 import { Highlight } from '../directives/highlight';
+import { Confirm } from '../directives/confirm';
 
 export interface PlayerEvent {
   id: string;
@@ -19,7 +20,8 @@ export interface PlayerEvent {
     DatePipe,
     PlayerNamePipe,
     PlayerPositionPipe,
-    Highlight
+    Highlight,
+    Confirm
   ],
   selector: 'app-player-list-item',
   styleUrl: './player-list-item.css',

@@ -31,7 +31,11 @@
       Edit Player
     </a>
 
-    <button type="button" (click)="playerClicked()">
+    <button
+      type="button"
+      [appConfirm]="'Are you sure you want to remove ' + player().strPlayer + '?'"
+      (confirmed)="playerClicked()"
+    >
       Remove Player
     </button>
   </div>
