@@ -20,8 +20,13 @@ export interface PlayerEvent {
     DatePipe,
     PlayerNamePipe,
     PlayerPositionPipe,
-    Highlight,
     Confirm
+  ],
+  hostDirectives: [
+    {
+      directive: Highlight,
+      inputs: ['appHighlight: highlightColor']
+    }
   ],
   selector: 'app-player-list-item',
   styleUrl: './player-list-item.css',

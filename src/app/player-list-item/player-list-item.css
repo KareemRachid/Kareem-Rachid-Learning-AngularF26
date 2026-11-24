@@ -1,7 +1,13 @@
+:host {
+  display: block;
+  margin-bottom: 10px;
+  transition: background-color 0.2s ease;
+}
+
 .player-card {
   border: 2px solid black;
   padding: 15px;
-  margin-bottom: 10px;
+  background-color: transparent;
 }
 
 .player-image {
@@ -23,6 +29,7 @@ button {
 button:hover {
   background-color: #b02a37;
 }
+
 .player-actions {
   display: flex;
   flex-direction: column;
